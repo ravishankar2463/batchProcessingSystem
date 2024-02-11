@@ -1,0 +1,72 @@
+#environment:
+#  - DATABASE_URL=mongodb://mongodb:27017/node-boilerplate
+
+version: "3"
+services:
+  configuration-service:
+    build: ./ConfigurationService
+    container_name: configuration-service
+    ports:
+      - '8888:8080'
+
+  mongodb-job:
+    image: mongo:6-jammy
+    container_name: mongodb-job
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    ports:
+      - '27018:27017'
+    volumes:
+      - dbdatajob:/data/db
+    networks:
+      - microservice
+
+  mongodb-details:
+    image: mongo:6-jammy
+    container_name: mongodb-details
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    ports:
+      - '27017:27017'
+    volumes:
+      - dbdatadetails:/data/db
+    networks:
+      - microservice
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+      - ZOOKEEPER_TICK_TIME=2000
+    networks:
+      - microservice
+    ports:
+      - "22181:2181"
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+    networks:
+      - microservice
+    ports:
+      - "29092:29092"
+
+networks:
+  microservice:
+    driver: bridge
+
+volumes:
+  dbdatajob:
+  dbdatadetails:
