@@ -1,7 +1,7 @@
 #environment:
 #  - DATABASE_URL=mongodb://mongodb:27017/node-boilerplate
 
-version: "3.4"
+version: "3.9"
 services:
   configuration-service:
     build: ./ConfigurationService
@@ -12,6 +12,12 @@ services:
       - '8888:8080'
     networks:
       - microservice
+    healthcheck:
+      test: "curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1"
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
 
   process-and-user-service:
     build: ./ProcessAndUserService
@@ -25,14 +31,10 @@ services:
     ports:
       - '8081:8080'
     depends_on:
-      - mongodb-details
-      - configuration-service
-    healthcheck:
-      test: [ "CMD-SHELL", "curl", "-f", "http://configuration-service:8080/actuator/health/" ]
-      interval: 200s
-      timeout: 200s
-      retries: 5
-      start_period: 2m
+      mongodb-details:
+        condition: service_healthy
+      configuration-service:
+        condition: service_healthy
     networks:
       - microservice
 
@@ -63,6 +65,12 @@ services:
       - dbdatadetails:/data/db
     networks:
       - microservice
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
