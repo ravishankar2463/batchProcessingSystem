@@ -1,13 +1,40 @@
 #environment:
 #  - DATABASE_URL=mongodb://mongodb:27017/node-boilerplate
 
-version: "3"
+version: "3.4"
 services:
   configuration-service:
     build: ./ConfigurationService
     container_name: configuration-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
     ports:
       - '8888:8080'
+    networks:
+      - microservice
+
+  process-and-user-service:
+    build: ./ProcessAndUserService
+    container_name: process-and-user-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb-details:27017/bps
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+      - CONFIGURATION_SERVICE_URL=http://configuration-service:8080
+    ports:
+      - '8081:8080'
+    depends_on:
+      - mongodb-details
+      - configuration-service
+    healthcheck:
+      test: [ "CMD-SHELL", "curl", "-f", "http://configuration-service:8080/actuator/health/" ]
+      interval: 200s
+      timeout: 200s
+      retries: 5
+      start_period: 2m
+    networks:
+      - microservice
 
   mongodb-job:
     image: mongo:6-jammy
@@ -15,6 +42,7 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_DB=bps
     ports:
       - '27018:27017'
     volumes:
@@ -28,6 +56,7 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_DB=bps
     ports:
       - '27017:27017'
     volumes:
