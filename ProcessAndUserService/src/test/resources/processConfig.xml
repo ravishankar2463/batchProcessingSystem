@@ -1,0 +1,10 @@
+<Processes>
+    <Process>
+        <Name>SampleProcess</Name>
+        <Route>
+            <RouteName>
+                SampleProcessRoute
+            </RouteName>
+        </Route>
+    </Process>
+</Processes>
