@@ -1,10 +1,16 @@
 <Processes>
     <Process>
-        <Name>SampleProcess</Name>
+        <Name>BulkAddition</Name>
         <Route>
-            <RouteName>
-                SampleProcessRoute
-            </RouteName>
+            <RouteName>BulkAdditionRoute</RouteName>
         </Route>
+        <Steps>
+            <Step>
+                <StepName>CalculatedAdditionValue</StepName>
+                <StepDescription>Calculated Addition Value</StepDescription>
+                <StepSuccessMessage>Successfully Calculated Addition Value</StepSuccessMessage>
+                <StepFailureMessage>Not Able To Calculate Addition Value</StepFailureMessage>
+            </Step>
+        </Steps>
     </Process>
 </Processes>

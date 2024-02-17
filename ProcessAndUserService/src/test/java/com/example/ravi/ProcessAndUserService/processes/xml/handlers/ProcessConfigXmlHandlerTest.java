@@ -29,6 +29,24 @@ class ProcessConfigXmlHandlerTest {
         ProcessesXmlElement root = xmlHandler.getProcessesXmlElement();
         Assertions.assertEquals("SampleProcess",root.getProcessesList().get(0).getName());
         Assertions.assertEquals("SampleProcessRoute",root.getProcessesList().get(0).getRoute().getName());
+
+        Assertions.assertEquals("SampleProcessStepName",root.getProcessesList().get(0).getProcessStepsXmlElement().getProcessStepsXmlElementList().get(0).getName());
+        Assertions.assertEquals("SampleProcessStepDescription",root.getProcessesList().get(0).getProcessStepsXmlElement().getProcessStepsXmlElementList().get(0).getDescription());
+        Assertions.assertEquals("SampleProcessStepSuccessMessage",root.getProcessesList().get(0).getProcessStepsXmlElement().getProcessStepsXmlElementList().get(0).getSuccessMessage());
+        Assertions.assertEquals("SampleProcessStepFailureMessage",root.getProcessesList().get(0).getProcessStepsXmlElement().getProcessStepsXmlElementList().get(0).getFailureMessage());
+
+        Assertions.assertEquals("SampleProcess2",root.getProcessesList().get(1).getName());
+        Assertions.assertEquals("SampleProcess2Route",root.getProcessesList().get(1).getRoute().getName());
+
+        Assertions.assertEquals("SampleProcess2StepName",root.getProcessesList().get(1).getProcessStepsXmlElement().getProcessStepsXmlElementList().get(0).getName());
+        Assertions.assertEquals("SampleProcess2StepDescription",root.getProcessesList().get(1).getProcessStepsXmlElement().getProcessStepsXmlElementList().get(0).getDescription());
+        Assertions.assertEquals("SampleProcess2StepSuccessMessage",root.getProcessesList().get(1).getProcessStepsXmlElement().getProcessStepsXmlElementList().get(0).getSuccessMessage());
+        Assertions.assertEquals("SampleProcess2StepFailureMessage",root.getProcessesList().get(1).getProcessStepsXmlElement().getProcessStepsXmlElementList().get(0).getFailureMessage());
+
+        Assertions.assertEquals("SampleProcess2Step2Name",root.getProcessesList().get(1).getProcessStepsXmlElement().getProcessStepsXmlElementList().get(1).getName());
+        Assertions.assertEquals("SampleProcess2Step2Description",root.getProcessesList().get(1).getProcessStepsXmlElement().getProcessStepsXmlElementList().get(1).getDescription());
+        Assertions.assertEquals("SampleProcess2Step2SuccessMessage",root.getProcessesList().get(1).getProcessStepsXmlElement().getProcessStepsXmlElementList().get(1).getSuccessMessage());
+        Assertions.assertEquals("SampleProcess2Step2FailureMessage",root.getProcessesList().get(1).getProcessStepsXmlElement().getProcessStepsXmlElementList().get(1).getFailureMessage());
     }
 
 }

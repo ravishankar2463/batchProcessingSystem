@@ -6,5 +6,35 @@
                 SampleProcessRoute
             </RouteName>
         </Route>
+        <Steps>
+            <Step>
+                <StepName>SampleProcessStepName</StepName>
+                <StepDescription>SampleProcessStepDescription</StepDescription>
+                <StepSuccessMessage>SampleProcessStepSuccessMessage</StepSuccessMessage>
+                <StepFailureMessage>SampleProcessStepFailureMessage</StepFailureMessage>
+            </Step>
+        </Steps>
+    </Process>
+    <Process>
+        <Name>SampleProcess2</Name>
+        <Route>
+            <RouteName>
+                SampleProcess2Route
+            </RouteName>
+        </Route>
+        <Steps>
+            <Step>
+                <StepName>SampleProcess2StepName</StepName>
+                <StepDescription>SampleProcess2StepDescription</StepDescription>
+                <StepSuccessMessage>SampleProcess2StepSuccessMessage</StepSuccessMessage>
+                <StepFailureMessage>SampleProcess2StepFailureMessage</StepFailureMessage>
+            </Step>
+            <Step>
+                <StepName>SampleProcess2Step2Name</StepName>
+                <StepDescription>SampleProcess2Step2Description</StepDescription>
+                <StepSuccessMessage>SampleProcess2Step2SuccessMessage</StepSuccessMessage>
+                <StepFailureMessage>SampleProcess2Step2FailureMessage</StepFailureMessage>
+            </Step>
+        </Steps>
     </Process>
 </Processes>
