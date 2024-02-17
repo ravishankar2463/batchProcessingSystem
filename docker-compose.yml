@@ -24,35 +24,42 @@ services:
     container_name: process-and-user-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_DATA_MONGODB_URI=mongodb://mongodb-details:27017/bps
+#      - SPRING_DATA_MONGODB_URI=mongodb://mongo-db:27017/bps
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/bps
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=password
       - CONFIGURATION_SERVICE_URL=http://configuration-service:8080
     ports:
       - '8081:8080'
     depends_on:
-      mongodb-details:
+      postgres-db:
         condition: service_healthy
       configuration-service:
         condition: service_healthy
     networks:
       - microservice
 
-  mongodb-job:
-    image: mongo:6-jammy
-    container_name: mongodb-job
+  postgres-db:
+    container_name: postgres
+    image: 'postgres:13.1-alpine'
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=password
-      - MONGO_DB=bps
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=bps
     ports:
-      - '27018:27017'
+      - "5432:5432"
     volumes:
-      - dbdatajob:/data/db
+      - postgres-db-data:/var/lib/postgresql/data
     networks:
       - microservice
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
 
-  mongodb-details:
+  mongo-db:
     image: mongo:6-jammy
     container_name: mongodb-details
     environment:
@@ -62,7 +69,7 @@ services:
     ports:
       - '27017:27017'
     volumes:
-      - dbdatadetails:/data/db
+      - mongo-db-data:/data/db
     networks:
       - microservice
     healthcheck:
@@ -105,5 +112,5 @@ networks:
     driver: bridge
 
 volumes:
-  dbdatajob:
-  dbdatadetails:
+  postgres-db-data:
+  mongo-db-data:
