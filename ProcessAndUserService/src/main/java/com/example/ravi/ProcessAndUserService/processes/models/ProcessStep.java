@@ -1,10 +1,14 @@
 package com.example.ravi.ProcessAndUserService.processes.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import org.springframework.hateoas.RepresentationModel;
 
-@Entity
+import java.time.LocalDateTime;
+
+@Entity(name = "process_steps")
 @Table(name = "process_steps")
-public class ProcessStep {
+public class ProcessStep extends RepresentationModel<ProcessStep> {
     @Id
     private String id;
     @Column
@@ -15,13 +19,17 @@ public class ProcessStep {
     private String successMessage;
     @Column
     private String failureMessage;
+    @Column
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime createdDate;
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "process_id", nullable = false)
     private Process process;
 
     public ProcessStep(){}
 
-    public ProcessStep(String id, String name, String description, String successMessage, String failureMessage) {
+    public ProcessStep(String id, String name, String description, String successMessage, String failureMessage){
         this.id = id;
         this.name = name;
         this.description = description;
@@ -29,8 +37,13 @@ public class ProcessStep {
         this.failureMessage = failureMessage;
     }
 
-    public ProcessStep(String id, String name, String description, String successMessage, String failureMessage, Process process) {
+    public ProcessStep(String id, String name, String description, String successMessage, String failureMessage, LocalDateTime createdDate) {
         this(id,name,description,successMessage,failureMessage);
+        this.createdDate = createdDate;
+    }
+
+    public ProcessStep(String id, String name, String description, String successMessage, String failureMessage,LocalDateTime createdDate, Process process) {
+        this(id,name,description,successMessage,failureMessage,createdDate);
         this.process = process;
     }
 
@@ -74,11 +87,19 @@ public class ProcessStep {
         this.failureMessage = failureMessage;
     }
 
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
     public Process getProcess() {
         return process;
     }
 
-    public void setProcessId(Process process) {
+    public void setProcess(Process process) {
         this.process = process;
     }
 }

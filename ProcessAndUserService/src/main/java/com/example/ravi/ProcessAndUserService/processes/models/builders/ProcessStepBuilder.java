@@ -3,6 +3,7 @@ package com.example.ravi.ProcessAndUserService.processes.models.builders;
 import com.example.ravi.ProcessAndUserService.processes.models.Process;
 import com.example.ravi.ProcessAndUserService.processes.models.ProcessStep;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class ProcessStepBuilder {
@@ -34,6 +35,6 @@ public class ProcessStepBuilder {
     }
 
     public ProcessStep build(){
-        return new ProcessStep(UUID.randomUUID().toString(),name,description,successMessage,failureMessage,process);
+        return new ProcessStep(UUID.randomUUID().toString(),name,description,successMessage,failureMessage, LocalDateTime.now(),process);
     }
 }

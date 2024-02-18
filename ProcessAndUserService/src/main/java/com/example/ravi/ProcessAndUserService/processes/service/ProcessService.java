@@ -10,4 +10,8 @@ import java.util.List;
 public interface ProcessService {
     Process registerProcess(Process process);
     void registerProcessSteps(List<ProcessStep> processStep,Process processId);
+    List<Process> getAllProcesses();
+    Process getProcessByIdentifier(String processIdentifier,String processIdentifierType);
+    ProcessStep getProcessStepByIdentifier(String processIdentifier,String processIdentifierType,String processStepIdentifier,String processStepIdentifierType);
 }
+

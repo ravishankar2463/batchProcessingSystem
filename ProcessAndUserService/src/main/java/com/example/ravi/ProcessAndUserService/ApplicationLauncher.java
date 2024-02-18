@@ -6,8 +6,8 @@ import com.example.ravi.ProcessAndUserService.processes.service.ProcessService;
 import com.example.ravi.ProcessAndUserService.processes.xml.models.ProcessXmlElement;
 import com.example.ravi.ProcessAndUserService.processes.xml.models.ProcessesXmlElement;
 import com.example.ravi.ProcessAndUserService.processes.xml.parsers.ProcessConfigXmlParser;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @Component
 public class ApplicationLauncher implements CommandLineRunner {
-    private static final Log LOG = LogFactory.getLog(ApplicationLauncher.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ApplicationLauncher.class);
     private final String processConfigPath;
     private final ProcessService processService;
 

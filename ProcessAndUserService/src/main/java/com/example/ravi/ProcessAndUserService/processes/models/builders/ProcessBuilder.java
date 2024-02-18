@@ -3,6 +3,7 @@ package com.example.ravi.ProcessAndUserService.processes.models.builders;
 import com.example.ravi.ProcessAndUserService.processes.models.Process;
 import com.example.ravi.ProcessAndUserService.processes.models.ProcessStep;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,6 +28,6 @@ public class ProcessBuilder {
     }
 
     public Process build(){
-        return new Process(UUID.randomUUID().toString(),name,routeName,processSteps);
+        return new Process(UUID.randomUUID().toString(),name,routeName, LocalDateTime.now() ,processSteps);
     }
 }
