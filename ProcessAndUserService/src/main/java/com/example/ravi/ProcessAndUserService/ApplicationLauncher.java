@@ -51,7 +51,7 @@ public class ApplicationLauncher implements CommandLineRunner {
                                                                     xmlProcessStep.getDescription(),
                                                                     xmlProcessStep.getSuccessMessage(),
                                                                     xmlProcessStep.getFailureMessage())).toList(),
-                                    savedProcess);
+                                                                    savedProcess);
                         }
                 }
             );
